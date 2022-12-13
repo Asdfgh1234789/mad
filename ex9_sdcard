@@ -1,0 +1,191 @@
+MainActivity.java
+
+package com.example.sdcard;
+
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import android.os.Bundle;
+import android.app.Activity;
+import android.os.Environment;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+
+public class MainActivity extends Activity {
+    EditText inputText;
+    TextView response;
+    Button saveButton,readButton;
+
+    private String filename = "SampleFile.txt";
+    private String filepath = "MyFileStorage";
+    File myExternalFile;
+    String myData = "";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        inputText = (EditText) findViewById(R.id.myInputText);
+        response = (TextView) findViewById(R.id.response);
+
+
+        saveButton =
+                (Button) findViewById(R.id.saveExternalStorage);
+        saveButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    FileOutputStream fos = new FileOutputStream(myExternalFile);
+                    fos.write(inputText.getText().toString().getBytes());
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                inputText.setText("");
+                response.setText("SampleFile.txt saved to External Storage...");
+            }
+        });
+
+        readButton = (Button) findViewById(R.id.getExternalStorage);
+        readButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                inputText.setText("");
+                myData="";
+                try {
+                    FileInputStream fis = new FileInputStream(myExternalFile);
+                    DataInputStream in = new DataInputStream(fis);
+                    BufferedReader br =
+                            new BufferedReader(new InputStreamReader(in));
+                    String strLine;
+                    while ((strLine = br.readLine()) != null) {
+                        myData = myData + strLine;
+                    }
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                inputText.setText(myData);
+                response.setText("SampleFile.txt data retrieved from Internal Storage...");
+            }
+        });
+
+        if (!isExternalStorageAvailable() || isExternalStorageReadOnly()) {
+            saveButton.setEnabled(false);
+        }
+        else {
+            myExternalFile = new File(getExternalFilesDir(filepath), filename);
+        }
+
+
+    }
+    private static boolean isExternalStorageReadOnly() {
+        String extStorageState = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(extStorageState)) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean isExternalStorageAvailable() {
+        String extStorageState = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(extStorageState)) {
+            return true;
+        }
+        return false;
+    }
+
+
+}
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent" android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <TextView android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Reading and Writing to External Storage"
+        android:textSize="24sp"/>
+
+    <EditText android:id="@+id/myInputText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" android:lines="5"
+        android:minLines="3" android:gravity="top|left"
+        android:inputType="textMultiLine">
+
+        <requestFocus />
+    </EditText>
+
+    <LinearLayout
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1.0"
+        android:layout_marginTop="20dp">
+
+        <Button android:id="@+id/saveExternalStorage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SAVE"
+            android:layout_weight="0.5"/>
+
+        <Button android:id="@+id/getExternalStorage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="READ" />
+
+    </LinearLayout>
+
+    <TextView android:id="@+id/response"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:padding="5dp"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</LinearLayout>
+
+AndroidManifest.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" package="com.example.sdcard">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Sdcard"
+        tools:targetApi="31">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+    </application>
+
+</manifest>
