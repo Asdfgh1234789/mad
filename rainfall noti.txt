@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text"
+
+        android:hint="enter the amt rainfall in cms"/>
+    
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:id="@+id/b1"/>
+
+
+
+</LinearLayout>
+
+
+package com.example.myapplication;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        EditText e1  =  findViewById(R.id.text);
+        Button b1 = findViewById(R.id.b1);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel("Hi","Hi",NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NotificationCompat.Builder Builder = new NotificationCompat.Builder(MainActivity.this,"Hi");
+                float num = Float.parseFloat(e1.getText().toString());
+                if(num<50){
+                Builder.setContentTitle("new message!!");
+                Builder.setContentText("low rain fall");
+                Builder.setSmallIcon(R.drawable.ic_launcher_background);
+
+                NotificationManagerCompat manager = NotificationManagerCompat.from(MainActivity.this);
+                manager.notify(1,Builder.build());}
+                else if(num>75){
+                    Builder.setContentTitle("new message!!");
+                    Builder.setContentText("High rain fall");
+                    Builder.setSmallIcon(R.drawable.ic_launcher_background);
+
+                    NotificationManagerCompat manager = NotificationManagerCompat.from(MainActivity.this);
+                    manager.notify(1,Builder.build());
+
+                }
+
+                else{
+                    Builder.setContentTitle("new message!!");
+                    Builder.setContentText("medium rain fall");
+                    Builder.setSmallIcon(R.drawable.ic_launcher_background);
+
+                    NotificationManagerCompat manager = NotificationManagerCompat.from(MainActivity.this);
+                    manager.notify(1,Builder.build());
+
+                }
+            }
+        });
+    }
+}

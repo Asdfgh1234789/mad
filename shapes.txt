@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/img"/>
+</LinearLayout>
+
+
+
+package com.example.shapes;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.versionedparcelable.ParcelImpl;
+
+import android.graphics.Bitmap;
+import android.graphics.Camera;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
+import android.widget.ImageView;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Bitmap bg = Bitmap.createBitmap(720,1280,Bitmap.Config.ARGB_8888);
+        ImageView i = (ImageView) findViewById(R.id.img);
+        i.setBackgroundDrawable(new BitmapDrawable(bg));
+
+        Canvas c = new Canvas(bg);
+
+        Paint p1 = new Paint();
+        p1.setColor(Color.RED);
+
+        Paint p2 = new Paint();
+        p2.setColor(Color.BLUE);
+
+        Paint p3 = new Paint();
+        p3.setColor(Color.BLACK);
+
+        c.drawCircle(350,400,150,p1);
+        c.drawCircle(230,275,125,p2);
+        c.drawCircle(500,275,125,p2);
+        c.drawLine(200,250,250,250,p3);
+        c.drawLine(350,300,380,300,p3);
+        c.drawLine(485,250,535,250,p3);
+        c.drawLine(300,475,400,475,p3);
+
+
+
+
+    }
+}

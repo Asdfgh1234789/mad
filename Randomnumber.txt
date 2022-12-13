@@ -1,0 +1,176 @@
+Activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:id="@+id/t1">
+
+    <TextView
+        android:layout_width="363dp"
+        android:layout_height="82dp"
+        android:gravity="center"
+        android:text="Enter a number between 1-50 !"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.195" />
+
+    <EditText
+        android:id="@+id/e1"
+        android:layout_width="246dp"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.39" />
+
+    <Button
+        android:id="@+id/b1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Reset"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.208"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.551" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Enter"
+        android:textSize="25dp"
+        android:id="@+id/b2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.814"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.551" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+=============================================================================================
+Mainactivity.java
+
+
+
+package com.example.randomgame;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+import java.util.Timer;
+import java.util.TimerTask;
+public class MainActivity extends AppCompatActivity {
+    Timer y;
+    ConstraintLayout cl;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+       EditText e1 = findViewById(R.id.e1);
+       Button b1 = findViewById(R.id.b1);
+       Button b2 = findViewById(R.id.b2);
+       ConstraintLayout cl = findViewById(R.id.t1);
+
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                e1.setText("");
+                cl.setBackgroundColor(Color.WHITE);
+            }
+        });
+
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Integer x =  Integer.parseInt(e1.getText().toString());
+                AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
+                b.setCancelable(true);
+
+                y = new Timer();
+                if(x>=1 && x<10)
+                {
+                    cl.setBackgroundColor(Color.GRAY);
+                    y.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            cl.setBackgroundColor(Color.WHITE);
+                        }
+                    },3000);
+                }
+                else if(x>=10 && x<20)
+                {
+                    cl.setBackgroundColor(Color.BLACK);
+                    y.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            cl.setBackgroundColor(Color.WHITE);
+                        }
+                    },3000);
+                }
+                else if(x>=20 && x<30)
+                {
+                    cl.setBackgroundColor(Color.BLUE);
+                    y.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            cl.setBackgroundColor(Color.WHITE);
+                        }
+                    },3000);
+                }
+                else if (x>=30 && x<40)
+                {
+                    cl.setBackgroundColor(Color.YELLOW);
+                    y.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            cl.setBackgroundColor(Color.WHITE);
+                        }
+                    },3000);
+                }
+                else if(x>=40 && x<=50)
+                {
+                    cl.setBackgroundColor(Color.GREEN);
+                    y.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            cl.setBackgroundColor(Color.WHITE);
+                        }
+                    },3000);
+                }
+                else
+                {
+                    b.setMessage("Enter value between 1 - 50!!");
+                    b.setTitle("Error");
+                    b.show();
+                }
+            }
+        });
+    }
+}

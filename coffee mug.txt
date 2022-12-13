@@ -1,0 +1,62 @@
+package com.example.car;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
+import android.widget.ImageView;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        ImageView img = findViewById(R.id.img);
+        Bitmap bg = Bitmap.createBitmap(720,1280,Bitmap.Config.ARGB_8888);
+        img.setBackgroundDrawable(new BitmapDrawable(bg));
+
+        Canvas c = new Canvas(bg);
+        Paint p1 = new Paint();
+        p1.setColor(Color.RED);
+
+       // c.drawRect(200,200,600,600,p1);
+       // c.drawArc(200,140,600,280,180,180,true,p1);
+      //  c.drawArc(500,250,680,550,270,180,true,p1);
+        Paint p2 = new Paint();
+        p2.setColor(Color.WHITE);
+       // c.drawArc(600,300,630,520,270,180,true,p2);
+        c.drawArc(100,100,600,300,180,180,true,p1);
+
+        c.drawArc(100,500,600,700,360,180,true,p1);
+        c.drawRect(100,200,600,600,p1);
+
+        c.drawArc(500,250,700,550,270,180,true,p1);
+
+        c.drawArc(550,260,650,530,270,180,true,p2);
+
+    }
+}
+
+
+
+<?xml version="1.0" encoding="utf-8" ?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/img"/>
+
+
+
+</LinearLayout>
+

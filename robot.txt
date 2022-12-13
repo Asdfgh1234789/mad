@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/img"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+package com.example.car;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
+import android.widget.ImageView;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        ImageView ig = (ImageView) findViewById(R.id.img);
+        Bitmap bg = Bitmap.createBitmap(720,1280, Bitmap.Config.ARGB_8888);
+
+        ig.setBackgroundDrawable(new BitmapDrawable(bg));
+
+        Canvas c = new Canvas(bg);
+
+        Paint p1 = new Paint();
+        p1.setColor(Color.BLUE);
+        Paint p2 = new Paint();
+        p2.setColor(Color.BLACK);
+
+
+        c.drawRect(100,200,500,600,p1);
+        c.drawCircle(200,300,50,p2);
+        c.drawCircle(400,300,50,p2);
+        c.drawRect(200,450,400,490,p2);
+        c.drawRect(50,250,80,400,p1);
+        c.drawRect(520,250,580,400,p1);
+
+    }
+}

@@ -1,0 +1,150 @@
+Activity_main.xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="List"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="544dp"
+        android:gravity="center"
+        android:text="Poori"
+        android:id="@+id/item1"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="489dp"
+        android:gravity="center"
+        android:text="IDLY"
+        android:id="@+id/item2"
+        android:textSize="20dp" />
+
+
+</RelativeLayout>
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SecondActivity">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="520dp"
+        android:id="@+id/img">
+
+    </ImageView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/t1"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+MainActivity.java
+package com.example.restaurant;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        TextView i1 = (TextView) findViewById(R.id.item1);
+        TextView i2 = (TextView) findViewById(R.id.item2);
+
+        i1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String item1 = "poori";
+                Intent i = new Intent(MainActivity.this,SecondActivity.class);
+                i.putExtra("name",item1);
+
+                startActivity(i);
+
+            }
+        });
+        i2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String item1 = "idly";
+                Intent i = new Intent(MainActivity.this,SecondActivity.class);
+                i.putExtra("name",item1);
+
+                startActivity(i);
+
+            }
+        });
+    }
+}
+
+SecondActivity.java
+package com.example.restaurant;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+
+import android.os.Bundle;
+
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class SecondActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_second);
+
+        TextView ee1 = (TextView) findViewById(R.id.t1);
+
+        ImageView i1 = (ImageView) findViewById(R.id.img);
+
+        Intent i = getIntent();
+        String name1;
+        String ref = "poori";
+        name1 = i.getStringExtra("name");
+
+            if (name1.equals(ref)){
+            i1.setImageResource(R.drawable.img2);
+            ee1.setText(name1);}
+            else{
+               i1.setImageResource(R.drawable.img);
+                ee1.setText(name1);
+            }
+
+
+    }
+}
